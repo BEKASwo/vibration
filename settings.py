@@ -1,4 +1,4 @@
-work_dir = 'C:\\Users\\BEKASter\\Desktop\\ff\\data1\\'
+work_dir = '/home/bekas/vibration/data_gyro_250_8keys_100count/'
 
 KEY_FILE_NAME = work_dir + 'key.csv'
 MPU_FILE_NAME = work_dir + 'mpu.csv'
