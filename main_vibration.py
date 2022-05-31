@@ -8,6 +8,8 @@ from modules.signal import Signal
 from settings import *
 
 
+from modules.test import *
+
 
 def ReadDataWithMPU(file_name: str) -> None:
         with open(file_name) as File:
@@ -62,29 +64,48 @@ x = a['x'] - a['x'].mean()
 y = a['y'] - a['y'].mean()
 z = a['z'] - a['z'].mean()
 
+mods = []
+for i in range(len(x)):
+    mod = np.sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i])
+    mods.append(mod)
+mods = np.array(mods)
 
-plt.plot(time, x)
-plt.plot(time, y + 7)
-plt.plot(time, z + 14)
+
+#plt.plot(time, x)
+#plt.plot(time, y + 7)
+#plt.plot(time, z + 14)
+#plt.plot(time, mods - 7)
 
 Sx = x.std()
 Sy = y.std()
 Sz = z.std()
 
 
-sig_z = []
-for i in np.abs(z):
-    if i > 2*Sz:
-        sig_z.append(1)
+sig_x = []
+for i in np.abs(x):
+    if i > 2*Sx:
+        sig_x.append(1)
     else:
-        sig_z.append(0)
+        sig_x.append(0)
 
-#signals = GetSignals(z, next=50)
-#for i in signals:
-#    plt.plot(i)
-
+signals = GetSignals(x, next=40, prev=40)
+for i in range(len(signals)):
+    plt.plot(signals[i] + 5 * np.floor(i/100))
+print(len(signals))
 #plt.plot(time, sig_z)
 
+
+
+#signals = FormSignals(MPU_FILE_NAME, KEY_FILE_NAME, PREV_SIGNAL, NEXT_SIGNAL, 2)
+#for signal in signals:
+#    plt.plot(signal)
+
+
+#signals = UnitSignal.FormUnitSignlasFromKeyboardAndMPU(KEY_FILE_NAME, MPU_FILE_NAME, NEXT_SIGNAL, PREV_SIGNAL)
+#for signal in signals:
+#    plt.plot(signal.X)
+#    plt.plot(signal.Y + 5)
+#    plt.plot(signal.Z + 10)
 
 
 plt.show()
